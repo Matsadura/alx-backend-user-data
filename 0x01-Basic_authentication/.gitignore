@@ -5,3 +5,4 @@ api/v1/__pycache__/
 **/.DS_Store
 **/AUTH_ENV
 requirements.txt
+*main*.py

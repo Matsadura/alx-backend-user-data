@@ -40,8 +40,12 @@ class BasicAuth(Auth):
             return None, None
         if ':' not in decoded_base64_authorization_header:
             return None, None
-        cred = decoded_base64_authorization_header.split(':')
-        return cred[0], cred[1]
+        idx = decoded_base64_authorization_header.find(':')
+        email = decoded_base64_authorization_header[: idx]
+        pwd = decoded_base64_authorization_header[idx + 1:]
+        # cred = decoded_base64_authorization_header.split(':')
+        # return cred[0], cred[1]
+        return email, pwd
 
     def user_object_from_credentials(self, user_email: str, user_pwd: str) -> TypeVar('User'):  # nopep8
         """ Return the User instance based on his email and password """

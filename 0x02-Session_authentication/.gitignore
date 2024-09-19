@@ -6,4 +6,4 @@ api/v1/__pycache__/
 **/AUTH_ENV
 requirements.txt
 *main*.py
-
+*.json

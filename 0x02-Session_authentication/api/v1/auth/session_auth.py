@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 """Handles session authenthication"""
+import os
+from typing import TypeVar
 import uuid
 from api.v1.auth.auth import Auth
+from api.v1.views.users import User
 
 
 class SessionAuth(Auth):
@@ -24,3 +27,10 @@ class SessionAuth(Auth):
             return None
         user_id = self.user_id_by_session_id.get(session_id)
         return user_id
+
+    def current_user(self, request=None):
+        """Return a User instance based on a cookie value"""
+        cookie = self.session_cookie(request)
+        user_id = self.user_id_by_session_id.get(cookie)
+        user = User.get(user_id)
+        return user

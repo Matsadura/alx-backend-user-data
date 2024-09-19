@@ -7,7 +7,7 @@ from flask import request, jsonify
 
 
 @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
-def login():
+def login() -> str:
     """Login route"""
     email = request.form.get('email')
     if not email or email == '':

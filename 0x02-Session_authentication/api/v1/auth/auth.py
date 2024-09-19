@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Contains Auth related"""
 import re
+import os
 from flask import request
 from typing import List, TypeVar
 
@@ -34,3 +35,11 @@ class Auth:
     def current_user(self, request=None) -> TypeVar('User'):
         """Current_user public method"""
         return None
+
+    def session_cookie(self, request=None):
+        """ Return a cookie form a request """
+        if request is None:
+            return None
+        cookie_name = os.getenv('SESSION_NAME')
+        cookie = request.cookies.get(cookie_name)
+        return cookie

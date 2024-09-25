@@ -42,7 +42,7 @@ class DB:
         session.commit()
         return new_user
 
-    def find_user_by(self, **kwargs: dict) -> User:
+    def find_user_by(self, **kwargs) -> User:
         """Find a user"""
         query = self._session.query(User)
         for key, value in kwargs.items():

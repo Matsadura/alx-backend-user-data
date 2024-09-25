@@ -42,16 +42,15 @@ class DB:
         session.commit()
         return new_user
 
-    def find_user_by(self, **arguments) -> User:
-        """this method finds a user by email and hashed password"""
+    def find_user_by(self, **kwargs: dict) -> User:
+        """Find a user"""
         query = self._session.query(User)
-        for arg, val in arguments.items():
+        for key, value in kwargs.items():
             try:
-                q_attr = getattr(User, arg)
+                attr = getattr(User, key)
             except AttributeError:
-                raise InvalidRequestError()
-            query = query.filter(q_attr == val)
-        user = query.first()
-        if user is None:
-            raise NoResultFound()
-        return user
+                raise InvalidRequestError
+            found = query.filter(getattr(User, key) == value).first()
+        if not found:
+            raise NoResultFound
+        return found

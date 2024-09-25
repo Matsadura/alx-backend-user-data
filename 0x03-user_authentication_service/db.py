@@ -50,7 +50,8 @@ class DB:
                 attr = getattr(User, key)
             except AttributeError:
                 raise InvalidRequestError
-            found = query.filter(getattr(User, key) == value).first()
-        if not found:
+            found = query.filter(attr == value)
+        user = found.first()
+        if not user:
             raise NoResultFound
-        return found
+        return user

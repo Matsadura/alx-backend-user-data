@@ -49,9 +49,9 @@ class DB:
             try:
                 attr = getattr(User, key)
             except AttributeError:
-                raise InvalidRequestError
+                raise InvalidRequestError()
             found = query.filter(attr == value)
         user = found.first()
         if not user:
-            raise NoResultFound
+            raise NoResultFound()
         return user

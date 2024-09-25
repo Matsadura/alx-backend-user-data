@@ -3,6 +3,7 @@
 """
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.exc import InvalidRequestError, NoResultFound
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 
@@ -39,3 +40,15 @@ class DB:
         session.add(new_user)
         session.commit()
         return new_user
+
+    def find_user_by(self, **kwargs: dict) -> User:
+        """Find a user"""
+        session = self._session
+        for key, value in kwargs.items():
+            if not hasattr(User, key):
+                raise InvalidRequestError
+            found = session.query(User).filter(getattr(User,
+                                               key) == value).first()
+        if not found:
+            raise NoResultFound
+        return found

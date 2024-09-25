@@ -53,3 +53,14 @@ class DB:
         if not found:
             raise NoResultFound
         return found
+
+    def update_user(self, user_id, **args) -> None:
+        """Update a user"""
+        user = self.find_user_by(id=user_id)
+        if not user:
+            return None
+        for k, v in args.items():
+            if not hasattr(User, k):
+                raise ValueError
+            setattr(user, k, v)
+        return None

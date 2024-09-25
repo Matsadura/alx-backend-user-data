@@ -44,14 +44,12 @@ class DB:
 
     def find_user_by(self, **kwargs) -> User:
         """Find a user"""
-        query = self._session.query(User)
+        session = self._session
         for key, value in kwargs.items():
-            try:
-                attr = getattr(User, key)
-            except AttributeError:
-                raise InvalidRequestError()
-            found = query.filter(attr == value)
-        user = found.first()
-        if not user:
-            raise NoResultFound()
-        return user
+            if not hasattr(User, key):
+                raise InvalidRequestError
+            found = session.query(User).filter(getattr(User,
+                                               key) == value).first()
+        if not found:
+            raise NoResultFound
+        return found

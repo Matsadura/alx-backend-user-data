@@ -46,7 +46,9 @@ class DB:
         """Find a user"""
         session = self._session
         for key, value in kwargs.items():
-            if not hasattr(User, key):
+            try:
+                attr = getattr(User, key)
+            except AttributeError:
                 raise InvalidRequestError
             found = session.query(User).filter(getattr(User,
                                                key) == value).first()

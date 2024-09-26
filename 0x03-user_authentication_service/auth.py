@@ -38,3 +38,8 @@ class Auth:
         if not bcrypt.checkpw(password.encode('utf-8'), user.hashed_password):
             return False
         return True
+
+    def _generate_uuid() -> str:
+        """Return str repr of a new UUID"""
+        import uuid
+        return str(uuid.uuid4())

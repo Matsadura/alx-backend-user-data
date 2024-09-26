@@ -45,7 +45,7 @@ def login():
         if not user:
             abort(403)
         AUTH.destroy_session(user.id)
-        return redirect(url_for('home', _method='GET'))
+        return redirect(url_for('home'))
 
 
 if __name__ == "__main__":

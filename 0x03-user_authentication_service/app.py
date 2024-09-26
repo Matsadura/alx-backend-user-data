@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Basic Flask app"""
 from auth import Auth
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort, url_for, redirect
 
 
 app = Flask(__name__)
@@ -27,17 +27,25 @@ def users():
     return jsonify({"email": email, "message": "user created"})
 
 
-@app.route('/sessions', methods=['POST'])
+@app.route('/sessions', methods=['POST', 'DELETE'])
 def login():
     """Login a user"""
-    email = request.form.get('email')
-    password = request.form.get('password')
-    if AUTH.valid_login(email, password):
-        session_id = AUTH.create_session(email)
-        response = jsonify({"email": email, "message": "logged in"})
-        response.set_cookie('session_id', session_id)
-        return response
-    abort(401)
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+        if AUTH.valid_login(email, password):
+            session_id = AUTH.create_session(email)
+            response = jsonify({"email": email, "message": "logged in"})
+            response.set_cookie('session_id', session_id)
+            return response
+        abort(401)
+    elif request.method == 'DELETE':
+        session_id = request.cookies.get('session_id')
+        user = AUTH.get_user_from_session_id(session_id)
+        if not user:
+            abort(403)
+        AUTH.destroy_session(user.id)
+        return redirect(url_for('home', _method='GET'))
 
 
 if __name__ == "__main__":

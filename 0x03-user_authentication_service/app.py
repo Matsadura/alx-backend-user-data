@@ -60,7 +60,7 @@ def profile():
     return jsonify({"email": user.email})
 
 
-@app.route('reset_password', methods=['POST'])
+@app.route('/reset_password', methods=['POST'])
 def get_reset_password_token():
     """Reset a user password"""
     email = request.form.get('email')

@@ -39,7 +39,7 @@ class Auth:
             return False
         return True
 
-    def _generate_uuid() -> str:
+    def _generate_uuid() -> UUID:
         """Return str repr of a new UUID"""
         import uuid
         return uuid.uuid4()

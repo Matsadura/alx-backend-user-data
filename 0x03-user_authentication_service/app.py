@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Basic Flask app"""
 from auth import Auth
-from flask import Flask, jsonify, request, abort, url_for, redirect
+from flask import Flask, jsonify, request, abort, redirect
 
 
 app = Flask(__name__)
@@ -45,7 +45,7 @@ def login():
         if not user:
             abort(403)
         AUTH.destroy_session(user.id)
-        return redirect(url_for('home'))
+        return redirect('/')
 
 
 if __name__ == "__main__":

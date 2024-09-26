@@ -64,6 +64,8 @@ def profile():
 def get_reset_password_token():
     """Reset a user password"""
     email = request.form.get('email')
+    if not email:
+        abort(403)
     try:
         user = AUTH._db.find_user_by(email=email)
     except Exception as e:
